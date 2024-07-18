@@ -81,7 +81,6 @@ class PropertyResource extends Resource
     public function fields(): array
     {
         return [
-
         ];
     }
 

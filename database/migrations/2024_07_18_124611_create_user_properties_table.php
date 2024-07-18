@@ -19,7 +19,7 @@ return new class extends Migration
 
             // Define foreign key constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('property_id')->references('id')->on('properties')->onDelete('cascade');
+            $table->foreign('property_id')->references('id')->on('property')->onDelete('cascade');
 
             // Ensure combination of user_id and property_id is unique
             $table->unique(['user_id', 'property_id']);

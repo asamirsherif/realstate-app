@@ -11,6 +11,8 @@ class UserProperty extends Model
     use HasFactory;
     public $timestamps = true;
 
+    protected $fillable = ['user_id','property_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

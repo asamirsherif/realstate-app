@@ -2,35 +2,59 @@
 
 namespace App\Services\Property;
 
+use App\Models\RealState\Property;
+use App\Models\RealState\UserProperty;
 use App\Models\Station\Station;
+use Exception;
+use GuzzleHttp\Handler\Proxy;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class StationService
  * @package App\Services
  */
-class StationService
+class PropertyService
 {
-    public function getAllStations()
+    public function createProperty($data)
     {
-        return Station::all();
+        try {
+            DB::beginTransaction();
+            $property = Property::create($data);
+            UserProperty::create(['property_id' => $property->id,'user_id'=> $data->user_id]);
+            DB::commit();
+        } catch (Exception $e){
+            Log::error($e);
+            DB::rollback();
+        }
+
+
     }
 
-    public function createStation($data)
+    public function updateProperty($property, $data)
     {
-        return Station::create($data);
+        try {
+            // DB::beginTransaction();
+            $property->fill($data)->save();
+            // DB::commit();
+            return Property::find($property->id);
+        } catch (Exception $e){
+            Log::error($e);
+            DB::rollback();
+        }
     }
 
-    public function updateStation($id, $data)
+    public function deleteProperty($id)
     {
-        $station = Station::findOrFail($id);
-        $station->update($data);
-        return $station;
-    }
+        try {
 
-    public function deleteStation($id)
-    {
-        $station = Station::findOrFail($id);
-        $station->delete();
-        return true;
+            DB::beginTransaction();
+            Property::find($id)->delete();
+            DB::commit();
+
+        } catch (Exception $e){
+            Log::error($e);
+            DB::rollback();
+        }
     }
 }

@@ -11,23 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-            Schema::create('property', function (Blueprint $table) {
-                $table->id();
-                $table->string('title');
-                $table->text('description')->nullable();
-                $table->decimal('price', 15, 2);
-                $table->string('location');
-                $table->integer('bedrooms');
-                $table->integer('bathrooms');
-                $table->integer('square_feet');
-                $table->unsignedBigInteger('type_id');
-                $table->unsignedBigInteger('country_id');
-                $table->unsignedBigInteger('city_id');
-                $table->foreign('type_id')->references('id')->on('property_types');
-                $table->foreign('country_id')->references('id')->on('property_types');
-                $table->foreign('city_id')->references('id')->on('property_types');
-                $table->timestamps();
-            });
+        Schema::create('property', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->decimal('price', 15, 2);
+            $table->string('longitude');
+            $table->string('latitude');
+            $table->integer('bedrooms');
+            $table->integer('bathrooms');
+            $table->integer('square_feet');
+            $table->unsignedBigInteger('type_id');
+            $table->unsignedBigInteger('country_id');
+            $table->unsignedBigInteger('state_id');
+            $table->unsignedBigInteger('city_id');
+            $table->foreign('type_id')->references('id')->on('property_types');
+            $table->foreign('country_id')->references('id')->on('countries');
+            $table->foreign('state_id')->references('id')->on('states');
+            $table->foreign('city_id')->references('id')->on('cities');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -35,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('properties');
+        Schema::dropIfExists('property');
     }
 };

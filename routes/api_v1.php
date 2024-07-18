@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\V1\RealState\PropertyController;
+use App\Http\Resources\V1\Location\LocationResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Client\Response;
@@ -20,7 +22,7 @@ Route::group(['middleware' => ['localization']], function () {
         return response()->json(__('locale.status_good'), 200);
     });
 
-        /**
+    /**
      * Auth
      */
     Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
@@ -40,10 +42,12 @@ Route::group(['middleware' => ['localization']], function () {
         Route::get('list-user-statuses', 'AuthController@listUserStatuses');
     });
 
-    Route::group(['prefix' => 'booking', 'namespace' => 'Booking'], function () {
-        Route::get('all-stations', 'BookingController@getAvailableStations');
-        Route::post('trips', 'BookingController@getAvailableRoutes');
-        Route::post('book', 'BookingController@createBookingByUser');
-    });
+    Route::apiResource('listing', PropertyController::class);
+    Route::get('property-types', [PropertyController::class,'listPropertyTypes']);
 
+    Route::group(['prefix' => 'location', 'namespace' => 'Location'], function () {
+        Route::get('countries', 'LocationController@listCountries');
+        Route::get('states', 'LocationController@listStates');
+        Route::get('cities', 'LocationController@listCities');
+    });
 });
