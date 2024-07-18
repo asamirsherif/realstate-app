@@ -7,7 +7,6 @@ use Orchid\Screen\Sight;
 use Orchid\Crud\Resource;
 use Orchid\Screen\Layout;
 use Orchid\Screen\Fields\Map;
-use App\Models\Station\Station;
 use Orchid\Screen\Fields\Group;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Layouts\Rows;
@@ -16,7 +15,6 @@ use Orchid\Support\Facades\Toast;
 use App\Models\RealState\Property;
 use Orchid\Screen\Fields\Relation;
 use Illuminate\Database\Eloquent\Model;
-use App\Services\Station\StationService;
 
 class PropertyResource extends Resource
 {
@@ -66,6 +64,9 @@ class PropertyResource extends Resource
                 return number_format($model->price) ?? '  N/A  ';
             }),
 
+            TD::make('bedrooms',__('Bedrooms')),
+            TD::make('bathrooms',__('Bathrooms')),
+
             TD::make('created_at', 'Date of creation')
                 ->render(function ($model) {
                     return $model->created_at->toDateTimeString();
@@ -96,6 +97,10 @@ class PropertyResource extends Resource
 
             Sight::make('title', __('Title')),
 
+            Sight::make('bedrooms',__('Bedrooms')),
+
+            Sight::make('bathrooms', __('Bathrooms')),
+
         ];
     }
 
@@ -103,9 +108,9 @@ class PropertyResource extends Resource
     /**
      * Perform any actions before storing the resource.
      *
-     * @param Station $station
+     * @param Property $property
      */
-    public function beforeStore(Station $station)
+    public function beforeStore(Property $property)
     {
 
     }
@@ -127,9 +132,9 @@ class PropertyResource extends Resource
     /**
      * Perform any actions after deleting the resource.
      *
-     * @param Station $station
+     * @param Property $property
      */
-    public function afterDelete(Station $station)
+    public function afterDelete(Property $property)
     {
         Toast::info('Property deleted!');
     }

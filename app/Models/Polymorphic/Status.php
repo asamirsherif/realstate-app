@@ -55,15 +55,6 @@ class Status extends Model
     {
         $allowedStatuses = [];
         switch ($this->object_type) {
-            case Seat::class:
-                $allowedStatuses = self::SEATS_STATUSES;
-                break;
-            case Vehicle::class:
-                $allowedStatuses = self::VEHICLE_STATUSES;
-                break;
-            case Vehicle::class:
-                $allowedStatuses = self::STATION_STATUES;
-                break;
             case User::class:
                 $allowedStatuses = self::USER_STATUSES;
                 break;

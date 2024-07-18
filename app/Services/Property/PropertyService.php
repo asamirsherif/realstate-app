@@ -4,16 +4,11 @@ namespace App\Services\Property;
 
 use App\Models\RealState\Property;
 use App\Models\RealState\UserProperty;
-use App\Models\Station\Station;
 use Exception;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-/**
- * Class StationService
- * @package App\Services
- */
 class PropertyService
 {
     public function createProperty($data)

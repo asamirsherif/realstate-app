@@ -66,6 +66,7 @@ RUN mkdir -p storage/app \
     && chmod -R 755 /var/www \
     && chown -R 1000:1000 /var/www \
     && chmod 777 storage/logs/laravel.log \
+    && chmod 777 database/database.sqlite \
     && chmod 777 -R storage/framework/cache \
     && mkdir -p bootstrap/cache \
     && chown -R 1000:1000 bootstrap/cache \
@@ -74,6 +75,19 @@ RUN mkdir -p storage/app \
     && php artisan config:clear \
     && php artisan route:clear \
     && php artisan view:clear \
-    && php artisan optimize:clear \
-    && php artisan passport:install \
-    && php artisan key:generate
+    && php artisan optimize:clear
+
+
+# ONLY FOR DEVELOPMENT
+RUN cp .env.example .env
+RUN sed -i -e 's/^DB_CONNECTION=mysql*/DB_CONNECTION=sqlite/' \
+           -e '/^DB_HOST=/d' \
+           -e '/^DB_PORT=/d' \
+           -e '/^DB_DATABASE=/d' \
+           -e '/^DB_USERNAME=/d' \
+           -e '/^DB_PASSWORD=/d' \
+           .env
+
+RUN php artisan key:generate \
+    && php artisan migrate --seed \
+    && php artisan passport:install
