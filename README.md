@@ -13,7 +13,7 @@ not intended for production use
 ## Admin Panel
 
 ````
-   http://localhost:8080/login
+   http://localhost:8080/admin
    
     email: admin@admin.com
     password: password
