@@ -40,7 +40,7 @@ class PropertyController extends ApiController
     public function store(PropertyCreateRequest $request)
     {
         $request->merge(['user_id' => auth()->user()->id]);
-        $property = $this->propertyService->createProperty($request->all());
+        $this->propertyService->createProperty($request->all());
         return $this->handleResponseMessage('Property Created Successfuly!');
     }
 

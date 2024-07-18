@@ -5,8 +5,10 @@ namespace App\Models\RealState;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class UserProperty extends Model
+
+class UserProperty extends Pivot
 {
     use HasFactory;
     public $timestamps = true;

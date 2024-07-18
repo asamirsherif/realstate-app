@@ -9,12 +9,14 @@ use App\Models\RealState\Property;
 use App\Models\RealState\PropertyType;
 use App\Models\RealState\UserProperty;
 use App\Models\User\User;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 trait PropertyRelation
 {
-    public function user()
+    public function user(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_property')->using(UserProperty::class);
+        return $this->belongsToMany(User::class, 'user_properties', 'property_id', 'user_id')
+                    ->using(UserProperty::class);
     }
 
     public function type(){

@@ -8,6 +8,7 @@ use Exception;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\User\User;
 
 class PropertyService
 {
@@ -16,8 +17,10 @@ class PropertyService
         try {
             DB::beginTransaction();
             $property = Property::create($data);
-            UserProperty::create(['property_id' => $property->id,'user_id'=> $data->user_id]);
+            $user = User::find($data['user_id']);
+            $user->properties()->sync([$property->id]);
             DB::commit();
+            return $property;
         } catch (Exception $e){
             Log::error($e);
             DB::rollback();
@@ -29,9 +32,9 @@ class PropertyService
     public function updateProperty($property, $data)
     {
         try {
-            // DB::beginTransaction();
+            DB::beginTransaction();
             $property->fill($data)->save();
-            // DB::commit();
+            DB::commit();
             return Property::find($property->id);
         } catch (Exception $e){
             Log::error($e);
